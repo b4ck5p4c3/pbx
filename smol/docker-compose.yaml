@@ -1,0 +1,20 @@
+services:
+  asterisk:
+    build: asterisk
+    restart: always
+    network_mode: host
+    env_file: .env
+    volumes:
+      # Share system timezone
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    logging:
+      driver: "local"
+      options:
+        max-size: "8m"
+        max-file: "4"
+    deploy:
+      resources:
+        limits:
+          cpus: 2
+          memory: 256M

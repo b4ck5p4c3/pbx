@@ -1,0 +1,8 @@
+:6970 {
+        root * /tftpboot
+        log {
+                output stdout
+                format console
+                level error
+        }
+}
