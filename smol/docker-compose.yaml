@@ -18,3 +18,21 @@ services:
         limits:
           cpus: 2
           memory: 256M
+
+  caddy:
+    image: caddy:latest
+    restart: always
+    network_mode: host
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./tftpboot:/tftpboot:ro
+    logging:
+      driver: "local"
+      options:
+        max-size: "8m"
+        max-file: "4"
+    deploy:
+      resources:
+        limits:
+          cpus: 1
+          memory: 128M

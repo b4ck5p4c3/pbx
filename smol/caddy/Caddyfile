@@ -1,5 +1,7 @@
+# Cisco CUCM
 :6970 {
         root * /tftpboot
+        file_server
         log {
                 output stdout
                 format console
