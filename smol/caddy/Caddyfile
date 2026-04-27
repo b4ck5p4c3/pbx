@@ -1,3 +1,7 @@
+{
+        admin off
+}
+
 # Cisco CUCM
 :6970 {
         root * /tftpboot
