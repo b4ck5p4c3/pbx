@@ -18,6 +18,10 @@ cat > "$CONF" << EOF
 [Interface]
 PrivateKey = ${WG_PRIVATE_KEY}
 Address = ${WG_LOCAL_IP}/64
+# Ethernet MTU (1500) minus WireGuard overhead:
+#   40 (outer IPv6) + 8 (UDP) + 32 (WireGuard) = 80 bytes
+# Using 1420 is safe whether the underlay is IPv4 or IPv6.
+MTU = 1420
 PostUp = ip6tables -A INPUT -i %i -m conntrack --ctstate NEW -j DROP
 PostDown = ip6tables -D INPUT -i %i -m conntrack --ctstate NEW -j DROP
 
