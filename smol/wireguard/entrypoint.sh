@@ -17,7 +17,7 @@ install -m 600 /dev/null "$CONF"
 cat > "$CONF" << EOF
 [Interface]
 PrivateKey = ${WG_PRIVATE_KEY}
-Address = ${WG_LOCAL_IP}
+Address = ${WG_LOCAL_IP}/64
 PostUp = ip6tables -A INPUT -i %i -m conntrack --ctstate NEW -j DROP
 PostDown = ip6tables -D INPUT -i %i -m conntrack --ctstate NEW -j DROP
 
