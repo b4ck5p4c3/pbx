@@ -18,6 +18,8 @@ cat > "$CONF" << EOF
 [Interface]
 PrivateKey = ${WG_PRIVATE_KEY}
 Address = ${WG_LOCAL_IP}
+PostUp = ip6tables -A INPUT -i %i -m conntrack --ctstate NEW -j DROP
+PostDown = ip6tables -D INPUT -i %i -m conntrack --ctstate NEW -j DROP
 
 [Peer]
 PublicKey = h4CWg3xFvpNv8+rOMSQtrYpkzPYEkbi+Yae3/wjskmQ=
