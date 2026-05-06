@@ -17,7 +17,7 @@ services:
       resources:
         limits:
           cpus: 2
-          memory: 256M
+          memory: 512Mx
 
   caddy:
     image: caddy:latest
