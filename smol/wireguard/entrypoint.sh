@@ -19,13 +19,15 @@ cat > "$CONF" << EOF
 PrivateKey = ${WG_PRIVATE_KEY}
 Address = ${WG_LOCAL_IP}/64
 MTU = 1420
+PostUp  = ip6tables -A INPUT -i %i -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 PostUp  = ip6tables -A INPUT -i %i -p ipv6-icmp --icmpv6-type packet-too-big -j ACCEPT
 PostUp  = ip6tables -A INPUT -i %i -p ipv6-icmp --icmpv6-type echo-request -j ACCEPT
-PostUp = ip6tables -A INPUT -i %i -m conntrack --ctstate NEW -j DROP
+PostUp  = ip6tables -A INPUT -i %i -j DROP
 
+PostDown = ip6tables -D INPUT -i %i -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 PostDown = ip6tables -D INPUT -i %i -p ipv6-icmp --icmpv6-type packet-too-big -j ACCEPT
 PostDown = ip6tables -D INPUT -i %i -p ipv6-icmp --icmpv6-type echo-request -j ACCEPT
-PostDown = ip6tables -D INPUT -i %i -m conntrack --ctstate NEW -j DROP
+PostDown = ip6tables -D INPUT -i %i -j DROP
 
 [Peer]
 PublicKey = h4CWg3xFvpNv8+rOMSQtrYpkzPYEkbi+Yae3/wjskmQ=
