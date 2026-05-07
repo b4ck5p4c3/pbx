@@ -4,6 +4,8 @@ services:
     restart: always
     network_mode: host
     env_file: .env
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
     cap_add:
       - NET_ADMIN
     healthcheck:
@@ -27,10 +29,8 @@ services:
       wireguard:
         condition: service_healthy
     extra_hosts:
-      sip.bksp.in: "fd91:652e:271a:e164:100c::1"
+      sip.bksp.in: "fd91:652e:271a:e164::1"
     volumes:
-      # Share system timezone
-      - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     logging:
       driver: "local"
@@ -49,6 +49,7 @@ services:
     volumes:
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
       - ./tftpboot:/tftpboot:ro
+      - /etc/localtime:/etc/localtime:ro
     logging:
       driver: "local"
       options:

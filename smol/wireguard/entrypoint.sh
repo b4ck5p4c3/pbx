@@ -26,7 +26,7 @@ PostDown = ip6tables -D INPUT -i %i -m conntrack --ctstate NEW -j DROP
 PublicKey = h4CWg3xFvpNv8+rOMSQtrYpkzPYEkbi+Yae3/wjskmQ=
 PresharedKey = ${WG_PSK}
 Endpoint = sip.bksp.in:37201
-AllowedIPs = fd91:652e:271a:e164:100c::1/128
+AllowedIPs = fd91:652e:271a:e164::1/128
 PersistentKeepalive = 30
 EOF
 
