@@ -1,23 +1,46 @@
 services:
+  wireguard:
+    build: wireguard
+    restart: always
+    network_mode: host
+    env_file: .env
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    cap_add:
+      - NET_ADMIN
+    healthcheck:
+      test: ["CMD", "wg", "show", "bksp-siprnet"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 5s
+    logging:
+      driver: "local"
+      options:
+        max-size: "1m"
+        max-file: "4"
+
   asterisk:
     build: asterisk
     restart: always
     network_mode: host
     env_file: .env
+    depends_on:
+      wireguard:
+        condition: service_healthy
+    extra_hosts:
+      sip.bksp.in: "fd91:652e:271a:e164::1"
     volumes:
-      # Share system timezone
-      - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     logging:
       driver: "local"
       options:
-        max-size: "8m"
+        max-size: "1m"
         max-file: "4"
     deploy:
       resources:
         limits:
-          cpus: 2
-          memory: 512Mx
+          memory: 512M
 
   caddy:
     image: caddy:latest
@@ -26,13 +49,13 @@ services:
     volumes:
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
       - ./tftpboot:/tftpboot:ro
+      - /etc/localtime:/etc/localtime:ro
     logging:
       driver: "local"
       options:
-        max-size: "8m"
+        max-size: "1m"
         max-file: "4"
     deploy:
       resources:
         limits:
-          cpus: 1
           memory: 128M
