@@ -1,3 +1,4 @@
 *
 !.gitignore
+!dialplan.cisco.xml
 !SEPMAC-CP6921.cnf.xml
